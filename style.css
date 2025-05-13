@@ -1,0 +1,421 @@
+:root {
+    /* Health-themed color palette */
+    --primary: #4cb69f;       /* Mint/Medical Green */
+    --primary-light: #e8f5f3;
+    --accent: #5271ff;        /* Medical Blue */
+    --warning: #fdc74a;       /* Alert Gold */
+    --danger: #e76f51;        /* Emergency Red */
+    --success: #2a9d8f;       /* Health Green */
+    --neutral-100: #f8f9fa;
+    --neutral-200: #e9ecef;
+    --neutral-300: #dee2e6;
+    --neutral-600: #6c757d;
+    --neutral-800: #343a40;
+    
+    /* Core variables */
+    --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    --border-radius: 8px;
+    --transition-speed: 0.3s;
+    --sidebar-width: 240px;
+}
+
+/* ===== GENERAL STYLES ===== */
+body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background-color: var(--neutral-100);
+    margin: 0;
+    padding: 0;
+    color: var(--neutral-800);
+    min-height: 100vh;
+    position: relative;
+    transition: var(--transition-speed);
+    max-width: 1300px;
+}
+
+/* ===== SIDEBAR STYLES ===== */
+/* Hamburger Toggle Button */
+.hamburger-toggle {
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    z-index: 1100;
+    background-color: white;
+    border: none;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: var(--card-shadow);
+    transition: all var(--transition-speed);
+}
+
+.hamburger-toggle:hover {
+    background-color: var(--primary-light);
+}
+
+.hamburger-line {
+    width: 20px;
+    height: 2px;
+    background-color: var(--primary);
+    margin: 2px 0;
+    transition: all var(--transition-speed);
+}
+
+/* Hamburger animation when sidebar is open */
+.sidebar-open .hamburger-toggle {
+    left: calc(var(--sidebar-width) + 1rem);
+}
+
+.sidebar-open .hamburger-line:nth-child(1) {
+    transform: translateY(6px) rotate(45deg);
+}
+
+.sidebar-open .hamburger-line:nth-child(2) {
+    opacity: 0;
+}
+
+.sidebar-open .hamburger-line:nth-child(3) {
+    transform: translateY(-6px) rotate(-45deg);
+}
+
+/* Sidebar Structure */
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: var(--sidebar-width);
+    height: 100vh;
+    background-color: white;
+    box-shadow: 1px 0 5px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+    transform: translateX(-100%);
+    transition: transform var(--transition-speed);
+}
+
+/* Show sidebar when body has the 'sidebar-open' class */
+body.sidebar-open .sidebar {
+    transform: translateX(0);
+}
+
+.sidebar-logo {
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    color: var(--primary);
+    font-weight: 600;
+    font-size: 1.2rem;
+    border-bottom: 1px solid var(--neutral-200);
+}
+
+.sidebar-logo i {
+    margin-right: 0.75rem;
+    font-size: 1.5rem;
+}
+
+.sidebar-nav {
+    padding: 1.25rem 0;
+    flex: 1;
+    overflow-y: auto;
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    padding: 0.875rem 1.5rem;
+    color: var(--neutral-600);
+    text-decoration: none;
+    transition: all 0.2s ease;
+    font-size: 0.95rem;
+}
+
+.sidebar-link:hover {
+    background-color: var(--primary-light);
+    color: var(--primary);
+}
+
+.sidebar-link.active {
+    background-color: var(--primary-light);
+    color: var(--primary);
+    border-left: 3px solid var(--primary);
+}
+
+.sidebar-link i {
+    margin-right: 0.875rem;
+    font-size: 1.1rem;
+    min-width: 24px;
+    text-align: center;
+}
+
+/* User Panel in Sidebar */
+.sidebar-user-panel {
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    background-color: var(--neutral-100);
+    border-top: 1px solid var(--neutral-200);
+}
+
+.sidebar-user-avatar {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.sidebar-user-info {
+    margin-left: 0.75rem;
+    flex: 1;
+    overflow: hidden;
+}
+
+.sidebar-user-name {
+    font-weight: 500;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.sidebar-user-role {
+    font-size: 0.8rem;
+    color: var(--primary);
+}
+
+.sidebar-logout-btn {
+    background: none;
+    border: none;
+    color: var(--neutral-600);
+    font-size: 1.1rem;
+    cursor: pointer;
+    padding: 0;
+    transition: color 0.2s ease;
+}
+
+.sidebar-logout-btn:hover {
+    color: var(--danger);
+}
+
+/* Overlay for mobile - closes sidebar when clicking outside */
+.sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 999;
+    display: none;
+    opacity: 0;
+    transition: opacity var(--transition-speed);
+}
+
+body.sidebar-open .sidebar-overlay {
+    display: block;
+    opacity: 1;
+}
+
+/* ===== MAIN CONTENT STYLES ===== */
+.main-content {
+    transition: margin-left var(--transition-speed);
+    padding: 1.5rem;
+    padding-top: 5rem;
+    /* Space for the hamburger button */
+}
+
+body.sidebar-open .main-content {
+    margin-left: var(--sidebar-width);
+}
+
+/* Stats Row */
+.stats-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    margin-left: 10rem;
+}
+
+.stat-card {
+    background-color: white;
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    box-shadow: var(--card-shadow);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.stat-icon {
+    font-size: 1.75rem;
+    margin-right: 1.25rem;
+    color: var(--primary);
+}
+
+.stat-content {
+    flex: 1;
+}
+
+.stat-count {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--neutral-800);
+    margin-bottom: 0.25rem;
+}
+
+.stat-label {
+    color: var(--neutral-600);
+    font-size: 0.875rem;
+}
+
+/* Table Styling */
+.table-container {
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    padding: 1.5rem;
+    overflow: auto;
+    margin-left: 10rem;
+}
+
+.student-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.student-table thead {
+    background-color: var(--primary-light);
+}
+
+.student-table th {
+    padding: 1rem 1.5rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--neutral-800);
+    text-align: left;
+    position: sticky;
+    top: 0;
+    background-color: var(--primary-light);
+}
+
+.student-table td {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--neutral-200);
+    font-size: 0.9rem;
+}
+
+.student-table tbody tr:hover {
+    background-color: var(--neutral-100);
+}
+
+.student-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Status Badges */
+.status-badge {
+    display: inline-block;
+    padding: 0.35rem 0.75rem;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.status-active {
+    background-color: rgba(42, 157, 143, 0.1);
+    color: var(--success);
+}
+
+.status-pending {
+    background-color: rgba(253, 199, 74, 0.1);
+    color: var(--warning);
+}
+
+/* ===== RESPONSIVE STYLES ===== */
+@media (max-width: 1200px) {
+    .stats-row {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 992px) {
+    .stats-row {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .sidebar-open .hamburger-toggle {
+        left: 1rem;
+    }
+    
+    body.sidebar-open .main-content {
+        margin-left: 0;
+    }
+    
+    .sidebar {
+        width: 280px;
+    }
+}
+
+@media (max-width: 768px) {
+    .stats-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .main-content {
+        padding: 1rem;
+        padding-top: 4rem;
+    }
+    
+    .sidebar {
+        width: 100%;
+        max-width: 320px;
+    }
+}
+
+@media (max-width: 576px) {
+    .table-container {
+        padding: 1rem;
+    }
+    
+    .student-table th,
+    .student-table td {
+        padding: 0.75rem 1rem;
+    }
+    
+    .hamburger-toggle {
+        top: 0.75rem;
+        left: 0.75rem;
+        width: 38px;
+        height: 38px;
+    }
+}
+
+
+.table-container2 {
+    height: 20vh;
+}
+
+.page-title-d {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-left: 10rem;
+    margin-bottom: 2rem;
+}
+
+.page-title-u {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-left: 10rem;
+    margin-bottom: 2rem;
+}
